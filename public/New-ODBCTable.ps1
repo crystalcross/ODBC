@@ -53,15 +53,15 @@ function New-ODBCTable
             This example shows creating a table and passing in the column defintions on the command line
         .NOTES
             FunctionName : New-ODBCTable
-            Created by   : jspatton
-            Date Coded   : 02/11/2015 12:31:18
+            Created by   : rwtaylor
+            Date Coded: 12/20/2022 23:33:00
         .LINK
-            https://github.com/jeffpatton1971/mod-posh/wiki/ODBC#New-ODBCTable
+            https://github.com/thecrystalcross/ODBC#New-ODBCTable
     #>
 	[CmdletBinding()]
 	Param
 	(
-		[ODBC.Data.ODBCClient.ODBCConnection]
+		[System.Data.Odbc.OdbcConnection]
 		$Connection = $Global:ODBCConnection,
 		
 		[parameter(Mandatory = $true)]

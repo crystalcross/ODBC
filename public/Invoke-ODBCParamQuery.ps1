@@ -21,8 +21,8 @@ function Invoke-ODBCParamQuery
             Add data to a sql table
         .NOTES
             FunctionName : Invoke-ODBCParamQuery
-            Created by   : ThatAstronautGuy
-            Date Coded   : 25/07/2018
+            Created by   : rwtaylor
+            Date Coded: 12/20/2022 23:33:00
     #>
     [CmdletBinding()]
 	Param
@@ -33,7 +33,7 @@ function Invoke-ODBCParamQuery
 		
 		[Parameter()]
 		[ValidateNotNullOrEmpty()]
-		[ODBC.Data.ODBCClient.ODBCConnection]$Connection = $ODBCConnection,
+		[System.Data.Odbc.OdbcConnection]$Connection = $ODBCConnection,
 
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
@@ -44,15 +44,13 @@ function Invoke-ODBCParamQuery
 	)
 	begin
 	{
-		$ErrorActionPreference = 'Stop'
 	}
 	Process
 	{
 		try
 
 		{
-			
-			[ODBC.Data.ODBCClient.ODBCCommand]$command = New-Object ODBC.Data.ODBCClient.ODBCCommand
+			[System.Data.Odbc.OdbcCommand]$command = New-Object System.Data.Odbc.OdbcCommand
             $command.Connection = $Connection
 			$command.CommandText = $Query
             $cc=($parameters | Measure-Object).Count
@@ -74,7 +72,7 @@ function Invoke-ODBCParamQuery
                         $stream=[System.IO.MemoryStream]$vv
                         $stream.Position=0
                         $ary=$stream.ToArray()
-                        $p=[ODBC.Data.ODBCClient.ODBCParameter]::new()
+                        $p=[System.Data.Odbc.OdbcParameter]::new()
                         $p.ParameterName=$ff
                         $p.DbType='Object'
                         $p.Value=[byte[]]$ary
@@ -87,7 +85,7 @@ function Invoke-ODBCParamQuery
                 }
                 $i+=1                
             }
-			[ODBC.Data.ODBCClient.ODBCDataAdapter]$dataAdapter = New-Object ODBC.Data.ODBCClient.ODBCDataAdapter($command)
+			[System.Data.Odbc.OdbcDataAdapter]$dataAdapter = New-Object System.Data.Odbc.OdbcDataAdapter($command)
 			$dataSet = New-Object System.Data.DataSet
 			$recordCount = $dataAdapter.Fill($dataSet)
 			Write-Verbose "$($recordCount) records found"

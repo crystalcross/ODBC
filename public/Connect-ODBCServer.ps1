@@ -7,6 +7,8 @@ function Connect-ODBCServer
 		This function will establish a connection to a local or remote instance of 
 		a ODBC Server. By default it will connect to the local instance on the 
 		default port.
+	.PARAMETER Driver
+		The name of the ODBC Driver to use for the connection, the default is MariaDB.
 	.PARAMETER ComputerName
 		The name of the remote computer to connect to, otherwise default to localhost
 	.PARAMETER Port
@@ -59,6 +61,7 @@ function Connect-ODBCServer
 		UseCompression    : False
 		State             : Open
 		ServerVersion     : 5.6.22-log
+        Driver            : MariaDB ODBC 3.1 Driver
 		ConnectionString  : server=db.company.com;port=3306;User Id=root
 		IsPasswordExpired : False
 		Site              :
@@ -77,6 +80,7 @@ function Connect-ODBCServer
 
 
 		ServerThread      : 2
+        Driver            : MariaDB ODBC 3.1 Driver
 		DataSource        : localhost
 		ConnectionTimeout : 25
 		Database          :
@@ -93,19 +97,23 @@ function Connect-ODBCServer
 		This example set the Command Timout to 60 and the Connection Timeout to 25. Both are optional when calling the Connect-ODBCServer function.
 	.NOTES
 		FunctionName : Connect-ODBCServer
-		Created by   : jspatton
-		Date Coded   : 02/11/2015 09:19:10
+		Created by   : rwtaylor
+		Date Coded: 12/20/2022 23:33:00
 	.LINK
-		https://github.com/jeffpatton1971/mod-posh/wiki/ODBC#Connect-ODBCServer
+		https://github.com/thecrystalcross/ODBC
 	#>
-	[OutputType('ODBC.Data.ODBCClient.ODBCConnection')]
+	[OutputType('System.Data.Odbc.OdbcConnection')]
 	[CmdletBinding()]
 	Param
 	(
 		[Parameter(Mandatory)]
 		[ValidateNotNullOrEmpty()]
 		[pscredential]$Credential,
-		
+
+		[Parameter()]
+		[ValidateNotNullOrEmpty()]
+		[string]$Driver = 'MariaDB',
+				
 		[Parameter()]
 		[ValidateNotNullOrEmpty()]
 		[string]$ComputerName = $env:COMPUTERNAME,
@@ -128,39 +136,39 @@ function Connect-ODBCServer
 	)
 	begin
 	{
-		$ErrorActionPreference = 'Stop'
-		
-		if ($PSBoundParameters.ContainsKey('Database')) {
-			$connectionString = 'server={0};port={1};uid={2};pwd={3};database={4};' -f $ComputerName,$Port,$Credential.UserName, $Credential.GetNetworkCredential().Password,$Database
-		}
-		else
-		{
-			$connectionString = 'server={0};port={1};uid={2};pwd={3};' -f $ComputerName, $Port, $Credential.UserName, $Credential.GetNetworkCredential().Password
-		}
-		# Added
-		$connectionString = $connectionString + "default command timeout=$CommandTimeOut; Connection Timeout=$ConnectionTimeOut;Allow User Variables=True"
+        $drv=Get-OdbcDriver -Name "*$($Driver)*"
+        if ($drv)
+        {
+		    if ($PSBoundParameters.ContainsKey('Database')) {
+			    $connectionString = 'DRIVER={{{0}}};Server={1};PORT={2};UID={3};PASSWORD={4};DATABASE={5};' -f $drv.Name,$ComputerName,$Port,$Credential.UserName, $Credential.GetNetworkCredential().Password,$Database
+		    }
+		    else
+		    {
+			    $connectionString = 'DRIVER={{{0}}};Server={1};PORT={2};UID={3};PASSWORD={4};' -f $drv.Name,$ComputerName,$Port,$Credential.UserName, $Credential.GetNetworkCredential().Password
+		    }
+		    $connectionString = $connectionString + "default command timeout=$CommandTimeOut; Connection Timeout=$ConnectionTimeOut;Allow User Variables=True"
+        }
+        else
+        {
+            Write-Verbose "Invalid Driver type '$Driver'."
+            return
+        }
 	}
 	process
 	{
 		try
 		{
-			[ODBC.Data.ODBCClient.ODBCConnection]$conn = New-Object ODBC.Data.ODBCClient.ODBCConnection($connectionString)
+			[System.Data.Odbc.OdbcConnection]$conn = New-Object System.Data.Odbc.OdbcConnection($connectionString)
             $conn.Open();
         }
         catch {
-            if ($_.Exception.Message -like '*cannot be cast from DBNull*')
-            {
-                if ($conn.State -ne 'Open')
-                {
-        			Write-Error -Message $_.Exception.Message
-                    return
-                }
-            }
+        	Write-Error -Message $_.Exception.Message
+            return
         }
         try {
 			$Global:ODBCConnection = $conn
 			if ($PSBoundParameters.ContainsKey('Database')) {
-				$null =  New-Object ODBC.Data.ODBCClient.ODBCCommand("USE $Database", $conn)
+				$null =  New-Object System.Data.Odbc.OdbcCommand("USE $Database", $conn)
 			}
 			$conn
 		}

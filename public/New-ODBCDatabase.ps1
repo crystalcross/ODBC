@@ -22,10 +22,10 @@ function New-ODBCDatabase
             This example creates the MyNewDB database on a ODBC server.
         .NOTES
             FunctionName : New-ODBCDatabase
-            Created by   : jspatton
-            Date Coded   : 02/11/2015 09:35:02
+            Created by   : rwtaylor
+            Date Coded: 12/20/2022 23:33:00
         .LINK
-            https://github.com/jeffpatton1971/mod-posh/wiki/ODBC#New-ODBCDatabase
+            https://github.com/thecrystalcross/ODBC#New-ODBCDatabase
     #>
 	[CmdletBinding()]
 	param
@@ -36,7 +36,7 @@ function New-ODBCDatabase
 		
 		[Parameter()]
 		[ValidateNotNullOrEmpty()]
-		[ODBC.Data.ODBCClient.ODBCConnection]$Connection = $ODBCConnection
+		[System.Data.Odbc.OdbcConnection]$Connection = $ODBCConnection
 	)
 	begin
 	{

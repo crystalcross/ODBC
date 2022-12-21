@@ -66,15 +66,15 @@ function New-ODBCUser
             This example uses the Get-Credential object to create a user (user-01) on the ODBC Server
         .NOTES
             FunctionName : New-ODBCUser
-            Created by   : jspatton
-            Date Coded   : 02/11/2015 10:28:35
+            Created by   : rwtaylor
+            Date Coded: 12/20/2022 23:33:00
         .LINK
-            https://github.com/jeffpatton1971/mod-posh/wiki/ODBC#New-ODBCUser
+            https://github.com/thecrystalcross/ODBC#New-ODBCUser
     #>
 	[CmdletBinding()]
 	Param
 	(
-		[ODBC.Data.ODBCClient.ODBCConnection]
+		[System.Data.Odbc.OdbcConnection]
 		$Connection = $Global:ODBCConnection,
 		
 		[parameter(Mandatory = $true)]

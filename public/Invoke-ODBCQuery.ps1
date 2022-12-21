@@ -4,7 +4,7 @@ function Invoke-ODBCQuery
         .SYNOPSIS
             Run an ad-hoc query against a ODBC Server
         .DESCRIPTION
-            This function can be used to run ad-hoc queries against a ODBC Server. 
+            This function can be used to run ad-hoc queries against any ODBC Server. 
             It is also used by nearly every function in this library to perform the 
             various tasks that are needed.
         .PARAMETER Connection
@@ -24,7 +24,6 @@ function Invoke-ODBCQuery
             --------
             information_schema
             mynewdb
-            ODBC
             performance_schema
             test
             testing
@@ -36,17 +35,17 @@ function Invoke-ODBCQuery
             -----------
             Return a list of databases
         .EXAMPLE
-            Invoke-ODBCQuery -Connection $Connection -Query "INSERT INTO foo (Name) VALUES ('Bird'),('Cat');"
+            Invoke-ODBCQuery -Connection $Connection -Query "INSERT INTO foo (Name) VALUES ('Dog'),('Treats');"
 
             Description
             -----------
             Add data to a sql table
         .NOTES
             FunctionName : Invoke-ODBCQuery
-            Created by   : jspatton
-            Date Coded   : 02/11/2015 11:09:26
+            Created by   : rwtaylor
+            Date Coded: 12/20/2022 23:33:00
         .LINK
-            https://github.com/jeffpatton1971/mod-posh/wiki/ODBC#Invoke-ODBCQuery
+            https://github.com/thecrystalcross/ODBC
     #>
 	[CmdletBinding()]
 	Param
@@ -57,21 +56,20 @@ function Invoke-ODBCQuery
 		
 		[Parameter()]
 		[ValidateNotNullOrEmpty()]
-		[ODBC.Data.ODBCClient.ODBCConnection]$Connection = $ODBCConnection
+		[System.Data.Odbc.OdbcConnection]$Connection = $ODBCConnection
 	)
 	begin
 	{
-		$ErrorActionPreference = 'Stop'
 	}
 	Process
 	{
 		try
 		{
 			
-			[ODBC.Data.ODBCClient.ODBCCommand]$command = New-Object ODBC.Data.ODBCClient.ODBCCommand
+			[System.Data.Odbc.OdbcCommand]$command = New-Object System.Data.Odbc.OdbcCommand
 			$command.Connection = $Connection
 			$command.CommandText = $Query
-			[ODBC.Data.ODBCClient.ODBCDataAdapter]$dataAdapter = New-Object ODBC.Data.ODBCClient.ODBCDataAdapter($command)
+			[System.Data.Odbc.OdbcDataAdapter]$dataAdapter = New-Object System.Data.Odbc.OdbcDataAdapter($command)
 			$dataSet = New-Object System.Data.DataSet
 			$recordCount = $dataAdapter.Fill($dataSet)
 			Write-Verbose "$($recordCount) records found"

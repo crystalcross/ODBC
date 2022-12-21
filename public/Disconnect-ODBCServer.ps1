@@ -30,18 +30,18 @@ function Disconnect-ODBCServer
             Server and then disconnecting from it.
         .NOTES
             FunctionName : Disconnect-ODBCServer
-            Created by   : jspatton
-            Date Coded   : 02/11/2015 12:16:24
+            Created by   : rwtaylor
+            Date Coded: 12/20/2022 23:33:00
         .LINK
-            https://github.com/jeffpatton1971/mod-posh/wiki/ODBC#Disconnect-ODBCServer
+            https://github.com/thecrystalcross/ODBC
     #>	
-	[OutputType('ODBC.Data.ODBCClient.ODBCConnection')]
+	[OutputType('System.Data.Odbc.OdbcConnection')]
 	[CmdletBinding()]
 	Param
 	(
 		[Parameter(ValueFromPipeline)]
 		[ValidateNotNullOrEmpty()]
-		[ODBC.Data.ODBCClient.ODBCConnection]$Connection = $ODBCConnection
+		[System.Data.Odbc.OdbcConnection]$Connection = $ODBCConnection
 	)
 	process
 	{

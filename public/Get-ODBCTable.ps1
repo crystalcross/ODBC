@@ -45,15 +45,15 @@ function Get-ODBCTable
             The sample_tbl from the wordpressdb
         .NOTES
             FunctionName : Get-ODBCTable
-            Created by   : jspatton
-            Date Coded   : 02/11/2015 12:47:03
+            Created by   : rwtaylor
+            Date Coded: 12/20/2022 23:33:00
         .LINK
-            https://github.com/jeffpatton1971/mod-posh/wiki/ODBC#Get-ODBCTable
+            https://github.com/thecrystalcross/ODBC#Get-ODBCTable
     #>
 	[CmdletBinding()]
 	Param
 	(
-		[ODBC.Data.ODBCClient.ODBCConnection]
+		[System.Data.Odbc.OdbcConnection]
 		$Connection = $Global:ODBCConnection,
 		
 		[string]$Database,

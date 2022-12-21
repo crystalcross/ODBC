@@ -41,17 +41,17 @@ function Get-ODBCDatabase
             This example shows the output when passing in the name of a Database.
         .NOTES
             FunctionName : Get-ODBCDatabase
-            Created by   : jspatton
-            Date Coded   : 02/11/2015 10:05:20
+            Created by   : rwtaylor
+            Date Coded: 12/20/2022 23:33:00
         .LINK
-            https://github.com/jeffpatton1971/mod-posh/wiki/ODBC#Get-ODBCDatabase
+            https://github.com/thecrystalcross/ODBC
     #>
 	[CmdletBinding()]
 	Param
 	(
 		[Parameter()]
 		[ValidateNotNullOrEmpty()]
-		[ODBC.Data.ODBCClient.ODBCConnection]$Connection = $ODBCConnection,
+		[System.Data.Odbc.OdbcConnection]$Connection = $ODBCConnection,
 		
 		[Parameter()]
 		[ValidateNotNullOrEmpty()]

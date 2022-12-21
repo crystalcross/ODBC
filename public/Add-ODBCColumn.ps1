@@ -67,15 +67,15 @@ function Add-ODBCColumn
             This example shows how to add multiple columns to a table
         .NOTES
             FunctionName : Add-ODBCColumn
-            Created by   : jspatton
-            Date Coded   : 02/11/2015 13:21:29
+            Created by   : rwtaylor
+            Date Coded: 12/20/2022 23:33:00
         .LINK
-            https://github.com/jeffpatton1971/mod-posh/wiki/ODBC#Add-ODBCColumn
+            https://github.com/thecrystalcross/ODBC
     #>
 	[CmdletBinding()]
 	Param
 	(
-		[ODBC.Data.ODBCClient.ODBCConnection]
+		[System.Data.Odbc.OdbcConnection]
 		$Connection = $Global:ODBCConnection,
 		
 		[string]$Database,
@@ -90,7 +90,6 @@ function Add-ODBCColumn
 	{
 		try
 		{
-			$ErrorActionPreference = "Stop";
 			if ($Database)
 			{
 				if (Get-ODBCDatabase -Connection $Connection -Name $Database)

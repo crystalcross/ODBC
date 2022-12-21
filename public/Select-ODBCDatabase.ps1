@@ -10,7 +10,7 @@ function Select-ODBCDatabase
         .PARAMETER Connection
         .PARAMETER Database
         .EXAMPLE
-            # jspatton@IT08082 | 16:35:02 | 02-16-2015 | C:\projects\mod-posh\powershell\production $
+            # rwtaylor@IT08082 | 16:35:02 | 02-16-2015 | C:\projects\mod-posh\powershell\production $
             Connect-ODBCServer -Credential (Get-Credential)
 
             cmdlet Get-Credential at command pipeline position 1
@@ -32,7 +32,6 @@ function Select-ODBCDatabase
 
 
 
-            # jspatton@IT08082 | 16:35:13 | 02-16-2015 | C:\projects\mod-posh\powershell\production $
             Get-ODBCDatabase
 
             Database
@@ -49,7 +48,6 @@ function Select-ODBCDatabase
             wordpressdb2
 
 
-            # jspatton@IT08082 | 16:35:24 | 02-16-2015 | C:\projects\mod-posh\powershell\production $
             Select-ODBCDatabase -Database mytest
 
 
@@ -72,12 +70,12 @@ function Select-ODBCDatabase
             The output of the command shows that we are now using mytest.
         .NOTES
             FunctionName : Select-ODBCDatabase
-            Created by   : jspatton
-            Date Coded   : 02/16/2015 16:29:43
+            Created by   : rwtaylor
+            Date Coded: 12/20/2022 23:33:00
         .LINK
-            https://github.com/jeffpatton1971/mod-posh/wiki/ODBC#Select-ODBCDatabase
-    #>	
-	[OutputType('ODBC.Data.ODBCClient.ODBCConnection')]
+            https://github.com/thecrystalcross/ODBC
+#>	
+	[OutputType('System.Data.Odbc.OdbcConnection')]
 	[CmdletBinding()]
 	Param
 	(
@@ -87,7 +85,7 @@ function Select-ODBCDatabase
 		
 		[Parameter()]
 		[ValidateNotNullOrEmpty()]
-		[ODBC.Data.ODBCClient.ODBCConnection]$Connection = $ODBCConnection
+		[System.Data.Odbc.OdbcConnection]$Connection = $ODBCConnection
 	)
 	process
 	{

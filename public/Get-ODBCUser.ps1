@@ -75,15 +75,15 @@ function Get-ODBCUser
             This shows the output when passing in a value for User
         .NOTES
             FunctionName : Get-ODBCUser
-            Created by   : jspatton
-            Date Coded   : 02/11/2015 10:45:50
+            Created by   : rwtaylor
+            Date Coded: 12/20/2022 23:33:00
         .LINK
-            https://github.com/jeffpatton1971/mod-posh/wiki/ODBC#Get-ODBCUser
+            https://github.com/thecrystalcross/ODBC#Get-ODBCUser
     #>
 	[CmdletBinding()]
 	Param
 	(
-		[ODBC.Data.ODBCClient.ODBCConnection]
+		[System.Data.Odbc.OdbcConnection]
 		$Connection = $Global:ODBCConnection,
 		
 		[string]$User

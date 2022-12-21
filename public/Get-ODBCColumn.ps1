@@ -76,15 +76,15 @@ function Get-ODBCColumn
             A list of fields from the bar table in the test database
         .NOTES
             FunctionName : Get-ODBCField
-            Created by   : jspatton
-            Date Coded   : 02/11/2015 13:17:25
+            Created by   : rwtaylor
+            Date Coded: 12/20/2022 23:33:00
         .LINK
-            https://github.com/jeffpatton1971/mod-posh/wiki/ODBC#Get-ODBCField
+            https://github.com/thecrystalcross/ODBC#Get-ODBCField
     #>
 	[CmdletBinding()]
 	Param
 	(
-		[ODBC.Data.ODBCClient.ODBCConnection]
+		[System.Data.Odbc.OdbcConnection]
 		$Connection = $Global:ODBCConnection,
 		
 		[string]$Database,
